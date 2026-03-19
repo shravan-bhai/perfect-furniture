@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfect Furniture</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #F5F4F0; color: #1a1a1a; }
+
+.topbar {
+  background: #fff;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.brand { font-size: 20px; font-weight: 600; }
+.brand span { color: #3B6D11; }
+.topbar-phone { font-size: 14px; color: #666; }
+.topbar-phone strong { color: #1a1a1a; font-weight: 600; }
+
+.hero {
+  background: #fff;
+  padding: 2.5rem 1.5rem 2rem;
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+}
+.hero h1 { font-size: 28px; font-weight: 600; line-height: 1.25; margin-bottom: 0.75rem; }
+.hero h1 span { color: #3B6D11; }
+.hero p { font-size: 16px; color: #555; line-height: 1.6; max-width: 480px; margin: 0 auto 1.5rem; }
+
+.cta-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+.btn-green {
+  background: #3B6D11;
+  color: #fff;
+  border: none;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-green:hover { background: #27500A; }
+
+.btn-plain {
+  background: #f3f3f0;
+  color: #1a1a1a;
+  border: 1px solid #ddd;
+  padding: 14px 28px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-plain:hover { background: #e8e8e4; }
+
+.trust-row {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1.25rem 1.5rem;
+  background: #EAF3DE;
+  border-bottom: 1px solid #C0DD97;
+  flex-wrap: wrap;
+}
+.trust-item { font-size: 13px; color: #27500A; display: flex; align-items: center; gap: 6px; }
+.trust-dot { width: 8px; height: 8px; border-radius: 50%; background: #639922; flex-shrink: 0; }
+
+.section { padding: 2rem 1.5rem; }
+.section-title { font-size: 20px; font-weight: 600; margin-bottom: 1.25rem; }
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+.service-card {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 1.1rem 1rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  text-align: center;
+}
+.service-card:hover { border-color: #639922; background: #EAF3DE; }
+.service-card.selected { border: 2px solid #3B6D11; background: #EAF3DE; }
+.service-icon-box {
+  width: 40px; height: 40px;
+  background: #f3f3f0;
+  border-radius: 8px;
+  margin: 0 auto 10px;
+  display: flex; align-items: center; justify-content: center;
+}
+.service-card.selected .service-icon-box { background: #C0DD97; }
+.service-card h4 { font-size: 13px; font-weight: 600; line-height: 1.3; }
+.service-card p { font-size: 12px; color: #777; margin-top: 4px; line-height: 1.4; }
+
+.lead-form {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.lead-form h3 { font-size: 18px; font-weight: 600; margin-bottom: 0.25rem; }
+.lead-form .subtitle { font-size: 14px; color: #666; margin-bottom: 1.25rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.form-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+.form-group label { font-size: 13px; font-weight: 600; color: #555; }
+.form-group input, .form-group textarea, .form-group select {
+  font-family: inherit;
+  font-size: 15px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #1a1a1a;
+  outline: none;
+  transition: border-color 0.15s;
+  width: 100%;
+}
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: #3B6D11; }
+.form-group textarea { resize: vertical; min-height: 80px; }
+.submit-btn {
+  width: 100%;
+  background: #3B6D11;
+  color: #fff;
+  border: none;
+  padding: 15px;
+  font-size: 17px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: background 0.15s;
+}
+.submit-btn:hover { background: #27500A; }
+
+.success-banner {
+  background: #EAF3DE;
+  border: 1px solid #639922;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  display: none;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+.success-dot { width: 10px; height: 10px; border-radius: 50%; background: #3B6D11; flex-shrink: 0; }
+.success-banner p { font-size: 14px; color: #27500A; }
+
+.ai-box {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.ai-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #e5e5e5;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ai-badge {
+  background: #EAF3DE;
+  color: #27500A;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 20px;
+  border: 1px solid #C0DD97;
+}
+.ai-header-text h4 { font-size: 15px; font-weight: 600; }
+.ai-header-text p { font-size: 12px; color: #888; }
+
+.chat-msgs {
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.bubble {
+  max-width: 88%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.55;
+}
+.bubble-ai {
+  background: #f3f3f0;
+  border: 1px solid #e5e5e5;
+  color: #1a1a1a;
+  align-self: flex-start;
+  border-radius: 4px 12px 12px 12px;
+}
+.bubble-user {
+  background: #3B6D11;
+  color: #fff;
+  align-self: flex-end;
+  border-radius: 12px 4px 12px 12px;
+}
+.bubble-name { font-size: 11px; font-weight: 600; margin-bottom: 4px; color: #888; }
+.bubble-user .bubble-name { color: #9FE1CB; text-align: right; }
+
+.typing-row { display: flex; gap: 4px; align-items: center; padding: 10px 14px; }
+.tdot { width: 6px; height: 6px; border-radius: 50%; background: #aaa; animation: td 1.1s infinite; }
+.tdot:nth-child(2) { animation-delay: 0.18s; }
+.tdot:nth-child(3) { animation-delay: 0.36s; }
+@keyframes td { 0%,60%,100% { transform: translateY(0); opacity: 0.3; } 30% { transform: translateY(-4px); opacity: 1; } }
+
+.quick-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 0.75rem 1.25rem;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+}
+.chip {
+  font-size: 12px;
+  color: #555;
+  background: #f3f3f0;
+  border: 1px solid #ddd;
+  padding: 5px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.chip:hover { background: #EAF3DE; color: #27500A; border-color: #C0DD97; }
+
+.chat-input-row {
+  display: flex;
+  gap: 8px;
+  padding: 0.75rem 1.25rem;
+  align-items: flex-end;
+}
+.chat-input-row textarea {
+  flex: 1;
+  font-family: inherit;
+  font-size: 14px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #1a1a1a;
+  resize: none;
+  outline: none;
+  min-height: 38px;
+  max-height: 90px;
+  transition: border-color 0.15s;
+}
+.chat-input-row textarea:focus { border-color: #3B6D11; }
+.chat-input-row textarea::placeholder { color: #aaa; }
+.send-btn {
+  width: 38px; height: 38px;
+  background: #3B6D11;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.send-btn:hover { background: #27500A; }
+
+.reviews-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.review-card {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 1rem;
+}
+.stars { display: flex; gap: 2px; margin-bottom: 6px; }
+.star { width: 12px; height: 12px; background: #EF9F27; clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%); }
+.review-text { font-size: 13px; color: #666; line-height: 1.5; margin-bottom: 8px; }
+.review-name { font-size: 12px; font-weight: 600; }
+
+.footer-bar {
+  background: #fff;
+  border-top: 1px solid #e5e5e5;
+  padding: 1.25rem 1.5rem;
+  text-align: center;
+  font-size: 13px;
+  color: #888;
+}
+
+@media (max-width: 480px) {
+  .form-row { grid-template-columns: 1fr; }
+  .reviews-grid { grid-template-columns: 1fr; }
+  .trust-row { gap: 0.75rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">Perfect <span>Furniture</span></div>
+  <div class="topbar-phone">Call us: <strong>70 2181 0757</strong></div>
+</div>
+
+<div class="hero">
+  <h1>Need a <span>trusted furniture</span><br>contractor near you?</h1>
+  <p>We fit kitchens, wardrobes, offices, and more. Get a free quote today — no jargon, no hassle, just good work done right.</p>
+  <div class="cta-row">
+    <button class="btn-green" onclick="document.getElementById('lead-form').scrollIntoView({behavior:'smooth'})">Get a free quote</button>
+    <button class="btn-plain" onclick="document.getElementById('ai-section').scrollIntoView({behavior:'smooth'})">Ask a question first</button>
+  </div>
+</div>
+
+<div class="trust-row">
+  <div class="trust-item"><div class="trust-dot"></div> 500+ happy customers</div>
+  <div class="trust-item"><div class="trust-dot"></div> Free quotes, no obligation</div>
+  <div class="trust-item"><div class="trust-dot"></div> Fully insured</div>
+  <div class="trust-item"><div class="trust-dot"></div> Local team</div>
+</div>
+
+<div class="section">
+  <div class="section-title">What do you need done?</div>
+  <div class="services-grid">
+    <div class="service-card" onclick="selectService(this,'Kitchen fit-out')">
+      <div class="service-icon-box">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <rect x="2" y="3" width="18" height="16" rx="2"/><line x1="2" y1="9" x2="20" y2="9"/><line x1="8" y1="9" x2="8" y2="19"/>
+        </svg>
+      </div>
+      <h4>Kitchen fit-out</h4><p>Units, worktops, fitting</p>
+    </div>
+    <div class="service-card" onclick="selectService(this,'Wardrobes & storage')">
+      <div class="service-icon-box">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <rect x="3" y="2" width="16" height="19" rx="2"/><line x1="11" y1="2" x2="11" y2="21"/><circle cx="9" cy="11" r="1" fill="currentColor" stroke="none"/><circle cx="13" cy="11" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+      </div>
+      <h4>Wardrobes & storage</h4><p>Built-in, freestanding</p>
+    </div>
+    <div class="service-card" onclick="selectService(this,'Office furniture')">
+      <div class="service-icon-box">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <rect x="2" y="12" width="18" height="4" rx="1"/><line x1="6" y1="16" x2="5" y2="20"/><line x1="16" y1="16" x2="17" y2="20"/><rect x="7" y="6" width="8" height="6" rx="1"/>
+        </svg>
+      </div>
+      <h4>Office furniture</h4><p>Desks, shelving, units</p>
+    </div>
+    <div class="service-card" onclick="selectService(this,'Hotel & hospitality')">
+      <div class="service-icon-box">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <rect x="2" y="10" width="18" height="9" rx="1"/><path d="M4 10V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v3"/><line x1="11" y1="10" x2="11" y2="19"/>
+        </svg>
+      </div>
+      <h4>Hotel & hospitality</h4><p>Rooms, lobbies, bars</p>
+    </div>
+    <div class="service-card" onclick="selectService(this,'Repairs & refurb')">
+      <div class="service-icon-box">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <path d="M14.5 2.5l5 5-12 12H3v-4.5L14.5 2.5z"/>
+        </svg>
+      </div>
+      <h4>Repairs & refurb</h4><p>Fix, restore, refresh</p>
+    </div>
+    <div class="service-card" onclick="selectService(this,'Something else')">
+      <div class="service-icon-box">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <circle cx="11" cy="11" r="9"/><line x1="11" y1="7" x2="11" y2="11"/><line x1="11" y1="15" x2="11.01" y2="15"/>
+        </svg>
+      </div>
+      <h4>Something else</h4><p>Tell us what you need</p>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="padding-top:0;" id="lead-form">
+  <div class="lead-form">
+    <h3>Get your free quote</h3>
+    <p class="subtitle">Takes 2 minutes. We'll call you back same day.</p>
+    <div class="form-row">
+      <div class="form-group"><label>Your name</label><input type="text" id="f-name" placeholder="e.g. Rahul Sharma"></div>
+      <div class="form-group"><label>Phone number</label><input type="tel" id="f-phone" placeholder="e.g. 98765 43210"></div>
+    </div>
+    <div class="form-group"><label>Your town or area</label><input type="text" id="f-area" placeholder="e.g. Mumbai, Pune..."></div>
+    <div class="form-group">
+      <label>What do you need? <span style="font-weight:400;color:#aaa">(selected above, or describe it)</span></label>
+      <textarea id="f-job" placeholder="Tell us a bit about the job — the more you share, the better we can help!"></textarea>
+    </div>
+    <div class="form-group">
+      <label>When do you need it done?</label>
+      <select id="f-time">
+        <option value="">Choose one...</option>
+        <option>As soon as possible</option>
+        <option>Within the next month</option>
+        <option>1–3 months time</option>
+        <option>Just planning ahead</option>
+      </select>
+    </div>
+    <button class="submit-btn" onclick="submitForm()">Send my enquiry — it's free</button>
+    <div class="success-banner" id="success-banner">
+      <div class="success-dot"></div>
+      <p>Great, we've got your enquiry! We'll give you a call back on 70 2181 0757 within a few hours.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="padding-top:0;" id="ai-section">
+  <div class="section-title">Not sure where to start? Ask our assistant</div>
+  <div class="ai-box">
+    <div class="ai-header">
+      <div class="ai-badge">AI helper</div>
+      <div class="ai-header-text">
+        <h4>Ask us anything</h4>
+        <p>Gets you an instant answer — no waiting, no sales calls</p>
+      </div>
+    </div>
+    <div class="chat-msgs" id="chat-msgs">
+      <div class="bubble bubble-ai">
+        <div class="bubble-name">Assistant</div>
+        Hi there! I can help you figure out what kind of job you need, get a rough idea of costs, or explain how it all works. What's on your mind?
+      </div>
+    </div>
+    <div class="quick-chips">
+      <div class="chip" onclick="askChip('How much does a kitchen fit-out usually cost?')">Kitchen cost?</div>
+      <div class="chip" onclick="askChip('How long does a wardrobe installation take?')">How long does it take?</div>
+      <div class="chip" onclick="askChip('Do I need to move my stuff before you come?')">Do I need to prepare?</div>
+      <div class="chip" onclick="askChip('Are you insured and qualified?')">Are you insured?</div>
+      <div class="chip" onclick="askChip('Can you work in rented properties?')">Rented property?</div>
+    </div>
+    <div class="chat-input-row">
+      <textarea id="chat-in" placeholder="Type your question here..." rows="1" onkeydown="chatKey(event)" oninput="resizeTA(this)"></textarea>
+      <button class="send-btn" onclick="sendChat()">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8L14 2L10 8L14 14L2 8Z" fill="#fff"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="padding-top:0;">
+  <div class="section-title">What our customers say</div>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+      <p class="review-text">"Brilliant job on our kitchen. Clean, quick, and the team were really friendly. Will definitely use again."</p>
+      <div class="review-name">Amit R, Pune</div>
+    </div>
+    <div class="review-card">
+      <div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+      <p class="review-text">"Got a quote the same day I called. Built-in wardrobes look amazing and cost less than I expected."</p>
+      <div class="review-name">Priya K, Mumbai</div>
+    </div>
+    <div class="review-card">
+      <div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+      <p class="review-text">"Fitted out our whole office. Professional team, finished on time, no mess left behind."</p>
+      <div class="review-name">Rohan M, Nashik</div>
+    </div>
+    <div class="review-card">
+      <div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+      <p class="review-text">"Really easy to deal with. They explained everything clearly and did exactly what they said they would."</p>
+      <div class="review-name">Sneha D, Pune</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-bar">
+  Perfect Furniture &nbsp;·&nbsp; Fully insured &nbsp;·&nbsp; Free quotes &nbsp;·&nbsp; 70 2181 0757
+</div>
+
+<script>
+let selectedService = '';
+let chatHistory = [];
+let chatLoading = false;
+
+function selectService(el, name) {
+  document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedService = name;
+  const ta = document.getElementById('f-job');
+  if (!ta.value) ta.value = name + ' — ';
+  ta.focus();
+}
+
+function submitForm() {
+  const name = document.getElementById('f-name').value.trim();
+  const phone = document.getElementById('f-phone').value.trim();
+  if (!name || !phone) { alert('Please enter your name and phone number so we can call you back!'); return; }
+  const banner = document.getElementById('success-banner');
+  banner.style.display = 'flex';
+  banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function resizeTA(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 90) + 'px';
+}
+
+function chatKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); }
+}
+
+function askChip(q) {
+  document.getElementById('chat-in').value = q;
+  sendChat();
+}
+
+function addBubble(text, role) {
+  const msgs = document.getElementById('chat-msgs');
+  const div = document.createElement('div');
+  div.className = 'bubble bubble-' + (role === 'user' ? 'user' : 'ai');
+  const label = document.createElement('div');
+  label.className = 'bubble-name';
+  label.textContent = role === 'user' ? 'You' : 'Assistant';
+  div.appendChild(label);
+  div.appendChild(document.createTextNode(text));
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function showTyping() {
+  const msgs = document.getElementById('chat-msgs');
+  const div = document.createElement('div');
+  div.className = 'bubble bubble-ai';
+  div.id = 'typing-bubble';
+  div.innerHTML = '<div class="typing-row"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div>';
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function removeTyping() {
+  const t = document.getElementById('typing-bubble');
+  if (t) t.remove();
+}
+
+async function sendChat() {
+  if (chatLoading) return;
+  const inp = document.getElementById('chat-in');
+  const text = inp.value.trim();
+  if (!text) return;
+  inp.value = '';
+  inp.style.height = 'auto';
+  addBubble(text, 'user');
+  chatHistory.push({ role: 'user', content: text });
+  chatLoading = true;
+  showTyping();
+
+  const SYSTEM = `You are a friendly, down-to-earth helper for Perfect Furniture, a local furniture contracting business. You help regular people who need furniture fitted — kitchens, wardrobes, offices, hotels.
+
+Speak in plain, warm, everyday English. No jargon. Be helpful and reassuring. Keep answers short (under 80 words). If someone asks about price, give a rough honest range. Always end by encouraging them to fill in the quote form or call 70 2181 0757 if they're ready.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: SYSTEM,
+        messages: chatHistory
+      })
+    });
+    const data = await res.json();
+    removeTyping();
+    const reply = data.content?.[0]?.text || 'Sorry, something went wrong — please try again or give us a call!';
+    chatHistory.push({ role: 'assistant', content: reply });
+    addBubble(reply, 'ai');
+  } catch(e) {
+    removeTyping();
+    addBubble("Oops, something went wrong. Give us a call on 70 2181 0757 and we'll help straight away!", 'ai');
+  }
+  chatLoading = false;
+}
+</script>
+</body>
+</html>
